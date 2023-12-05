@@ -1,14 +1,26 @@
 // import { useState } from 'react'
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import "./App.css";
+import DetailPage from "./pages/DetailPage";
+import HomePage  from "./pages/HomePage";
 
+
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <HomePage />,
+    },
+    {
+        path: "/detail/:id",
+        element: <DetailPage />,
+    },
+    {
+        path: "*",
+        element: <Navigate to="/" />,
+    },
+]);
 function App() {
-    return (
-        <div>
-            <h1 className=" w-full h-full flex justify-center align-middle bg-red-600 text-green-500 font-bold">
-              Ciaoo
-            </h1>
-        </div>
-    );
+    return <RouterProvider router={router} />;
 }
 
 export default App;

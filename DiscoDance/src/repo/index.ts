@@ -12,7 +12,7 @@ export const getAllEvents = async (): Promise<AllEvents[]> => {
     return [];
 };
 
-export const getSingleEvent = async (id:string): Promise<SingleEvent> => {
+export const getSingleEvent = async (id:number): Promise<SingleEvent> => {
     const res: Response = await fetch(URL+"/"+id);
     if (res.status === 200) {
         const data = (await res.json()); 

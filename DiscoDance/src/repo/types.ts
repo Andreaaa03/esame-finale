@@ -11,7 +11,7 @@ export type AllEvents = {
     includedDrinks: string[];
     tags: string[];
     isAperitivoIncluded: boolean;
-}[];
+};
 
 export type SingleEvent = {
     id: number;
@@ -26,7 +26,7 @@ export type SingleEvent = {
     price: number;
     includedDrinks: string[];
     tags: string[];
-    isAperitivoIncluded: true;
+    isAperitivoIncluded: boolean;
     includedDishes: [
         {
             name: string;
@@ -34,19 +34,5 @@ export type SingleEvent = {
             allergens: string[];
         }
     ];
-} | {
-    id: number;
-    name: string;
-    coverImage: string;
-    date: string;
-    description: {
-        long: string[];
-        short: string;
-    };
-    dresscode: string;
-    price: number;
-    includedDrinks: string[];
-    tags: string[];
-    isAperitivoIncluded: false; // Se isAperitivoIncluded è false, questo campo non è presente
 };
 
