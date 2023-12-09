@@ -1,12 +1,23 @@
+import ModalBooking from "../components/ModalBooking";
 import { useDetailEvents } from "../hooks/useDetailEvents";
+import gif from "../assets/Spin-0.gif";
+import { Link } from "react-router-dom";
 
 const DetailPage = () => {
     const { singleEvent, isLoading } = useDetailEvents();
     if (isLoading) {
-        return <p>Loading data...</p>;
+        return (
+            <div className="h-1/4 w-1/4">
+                <p>Loading data...</p>
+                <img className="h-1/4 w-1/4" src={gif} alt="gif" />
+            </div>
+        );
     } else {
         return (
             <div>
+                <Link to={"home"}>
+                    <button className="bg-green-500">home</button>
+                </Link>
                 <h1>dettaglio</h1>
                 <img src={singleEvent?.coverImage} alt="img" />
                 <p>{singleEvent?.id}</p>
@@ -14,13 +25,15 @@ const DetailPage = () => {
                 <p>{singleEvent?.description.long}</p>
                 <p>{singleEvent?.includedDrinks}</p>
                 <p>{singleEvent?.isAperitivoIncluded}</p>
-
+                {singleEvent?.time.map((t, i) => (
+                    <ModalBooking time={t} key={i} event={singleEvent.id} />
+                ))}
                 {singleEvent?.isAperitivoIncluded === true &&
                     singleEvent?.includedDishes.map((e, i) => {
                         return (
-                            <p key={i}>
+                            <button key={i}>
                                 {e.name} - {e.description} - {e.allergens}
-                            </p>
+                            </button>
                         );
                     })}
             </div>

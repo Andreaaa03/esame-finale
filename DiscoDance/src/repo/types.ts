@@ -34,5 +34,6 @@ export type SingleEvent = {
             allergens: string[];
         }
     ];
+    time: string[];
 };
 

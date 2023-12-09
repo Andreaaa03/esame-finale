@@ -1,0 +1,15 @@
+.card {
+    /* background-image: linear-gradient(to bottom, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%); */
+    background-image: linear-gradient(to right, #37bcec 0%, #72c1d3 100%);
+    border-radius: 20px;
+    margin: 1rem;
+}
+
+@media (min-width: 992px) {
+    .min-h-20-rem {
+        min-height: 20rem;
+    }
+    .min-h-15-rem {
+        min-height: 15rem;
+    }
+}
