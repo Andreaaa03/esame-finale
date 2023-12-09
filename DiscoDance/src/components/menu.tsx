@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { useAllEvents } from "../hooks/useEvents";
 import CardEvent from "./CardEvent";
 import gif from "../assets/Spin-0.gif";
+import { db, readOnDB } from "../utils/firebase";
 
 const Menu = () => {
     const { pastEvents, nextEvents, futureEvents, isLoading } = useAllEvents();
     const [showEvents, setShowEvents] = useState("");
     useEffect(() => {
         setShowEvents("CURRENT");
+        readOnDB(db);
     }, []);
     if (isLoading) {
         return (

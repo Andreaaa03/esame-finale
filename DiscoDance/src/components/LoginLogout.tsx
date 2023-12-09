@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { auth } from "../utils/firebase";
+import { auth, db, writeOnDBforUser } from "../utils/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -15,19 +15,26 @@ export const LoginLogout = () => {
         event.preventDefault();
         signInWithEmailAndPassword(auth, mail, password)
             .then(() => {
+                sessionStorage.setItem("userEmail", JSON.stringify(mail));
                 navigate("/home");
-                console.log("vai alla homee");
             })
-            .catch(() => {
-                console.log("credenziali sbagliate");
+            .catch((e) => {
+                console.log("credenziali sbagliate" + e);
             });
     };
     const logicSignIn = (event: React.MouseEvent<HTMLButtonElement>) => {
         console.log(name, surname, mail, password);
         event.preventDefault();
-        createUserWithEmailAndPassword(auth, mail, password);
+        createUserWithEmailAndPassword(auth, mail, password)
+            .then(()=>{
+                writeOnDBforUser(name, surname, mail, db)
+            })
+            .catch((e)=>{
+                console.log("qualcosa è andato storto"+e);
+            })
         setLog(false);
     };
+
     return (
         <div className="">
             {log === false && (

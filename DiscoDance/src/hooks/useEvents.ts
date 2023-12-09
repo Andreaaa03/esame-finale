@@ -21,7 +21,6 @@ export const useAllEvents = () => {
                 let i=0;
                 events.forEach((e) => {
                     const time = dayjs(datetime);
-                    console.log(e);
                     if (dayjs(e.date) < time) {
                         e.date=dayjs(e.date).format("DD/MM/YYYY - HH:mm");
                         newPastEvents.push(e);

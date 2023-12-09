@@ -17,12 +17,10 @@ export const ModalsBooking = (time:string, event:number) =>{
 
     const handleSubmit = () => {
         if (formData.name != "" && formData.surname != "" && formData.mail != "" && formData.age >=0 ) {
-            console.log("Submitted Data:", formData, time);
+            writeOnDB(formData.name, formData.surname, formData.mail, formData.age, event, time, db);
         } else {
             console.log("missed value");
         }
-        writeOnDB(formData.name, formData.surname, formData.mail, formData.age, event, time, db);
-
         // chiudo la modale
         setShowModal(false);
     };

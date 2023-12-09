@@ -15,7 +15,7 @@ const DetailPage = () => {
     } else {
         return (
             <div>
-                <Link to={"home"}>
+                <Link to={"/home"}>
                     <button className="bg-green-500">home</button>
                 </Link>
                 <h1>dettaglio</h1>

@@ -8,8 +8,6 @@ const ModalBooking = (typeInfo:info) => {
     const { time, event } = typeInfo;
     const { handleSubmit, handleChange, showModal, setShowModal } = ModalsBooking(time, event);
     
-
-    
     return (
         <>
             <button
