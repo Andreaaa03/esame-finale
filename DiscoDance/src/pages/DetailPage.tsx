@@ -1,10 +1,17 @@
 import ModalBooking from "../components/ModalBooking";
 import { useDetailEvents } from "../hooks/useDetailEvents";
 import gif from "../assets/Spin-0.gif";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const DetailPage = () => {
     const { singleEvent, isLoading } = useDetailEvents();
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!JSON.parse(sessionStorage.getItem("userEmail") as string)) {
+            navigate("/");
+        }
+    });
     if (isLoading) {
         return (
             <div className="h-1/4 w-1/4">

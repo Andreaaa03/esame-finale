@@ -56,33 +56,62 @@ export function writeOnDBforUser(
 // Initialize Firebase Authentication and get a reference to the service
 export const auth = getAuth(app);
 
-export async function readOnDB(db: Database) {
-    const userEmail = JSON.parse(sessionStorage.getItem('userEmail') as string);
-    let allBooking;
-    const allBookingRef = ref(db, 'booking/');
-    let bookingArray;
+export async function readOnDBBooking(db: Database): Promise<Record<string, string | number>[] | null> {
     try {
-        await get(allBookingRef).then((v) => {
-            if (v.exists()) {
-                bookingArray = Object.entries(v.val()).map(([id, data]) => ({
-                    id,
-                    ...(data as Record<string, string | number>),
-                }));
-                // for(let i=0; i<bookingArray.length; i++) {
-                //     if (bookingArray[i].mail === userEmail){
-                //         allBooking.push(bookingArray[i]);
-                //     }
-                // }
-                allBooking = bookingArray.filter(entry => 'mail' in entry && entry.mail === userEmail);
-            } else {
-                console.log("errore");
-            }
-        }).catch((e) => {
-            console.log(e);
-        })
-    } catch (e) {
-        console.log(e);
+        const userEmail = JSON.parse(sessionStorage.getItem('userEmail') as string);
+        const allBookingRef = ref(db, 'booking/');
+        const snapshot = await get(allBookingRef);
+
+        if (snapshot.exists()) {
+            const bookingArray = Object.entries(snapshot.val()).map(([id, data]) => ({
+                id,
+                ...(data as Record<string, string | number>),
+            }));
+
+            const userBookings = bookingArray.filter(entry => 'mail' in entry && entry.mail === userEmail);
+            console.log(userBookings);
+            return userBookings;
+        }
+    } catch (error) {
+        console.error("An error occurred while reading from the database:", error);
     }
-    console.log("bookingArray",bookingArray);
-    console.log("le mia prenot",allBooking);
+    return null;
+}
+
+
+const tempoInattivo = 10 * 60 * 1000;
+let timeoutId: NodeJS.Timeout;
+export function resetSession() {
+    sessionStorage.removeItem("userEmail");
+}
+function setTempoInattivo() {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(resetSession, tempoInattivo);
+}
+
+document.addEventListener("mousemove", setTempoInattivo);
+document.addEventListener("keydown", setTempoInattivo);
+
+
+export async function readOnDBUsers(db: Database): Promise<Record<string, string | number>[] | null> {
+    let users;
+    try {
+        const userEmail = JSON.parse(sessionStorage.getItem('userEmail') as string);
+        const allBookingRef = ref(db, 'users/');
+        const snapshot = await get(allBookingRef);
+
+        if (snapshot.exists()) {
+            const usersArray = Object.entries(snapshot.val()).map(([id, data]) => ({
+                id,
+                ...(data as Record<string, string | number>),
+            }));
+
+            users = usersArray.filter(entry => 'mail' in entry && entry.mail === userEmail);
+            console.log(users);
+            return users;
+        }
+    } catch (error) {
+        console.error("An error occurred while reading from the database:", error);
+    }
+    return null;
 }

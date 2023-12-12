@@ -2,14 +2,12 @@ import { useEffect, useState } from "react";
 import { useAllEvents } from "../hooks/useEvents";
 import CardEvent from "./CardEvent";
 import gif from "../assets/Spin-0.gif";
-import { db, readOnDB } from "../utils/firebase";
 
 const Menu = () => {
     const { pastEvents, nextEvents, futureEvents, isLoading } = useAllEvents();
     const [showEvents, setShowEvents] = useState("");
     useEffect(() => {
         setShowEvents("CURRENT");
-        readOnDB(db);
     }, []);
     if (isLoading) {
         return (
@@ -20,7 +18,7 @@ const Menu = () => {
         );
     } else {
         return (
-            <div className="">
+            <div className="mt-14">
                 <div className="fixed top-0 w-full mb-5 z-10 bg-white">
                     <ul className="grid grid-flow-col text-center border-b border-gray-200 text-gray-500">
                         <li>
@@ -52,9 +50,10 @@ const Menu = () => {
                         </li>
                     </ul>
                 </div>
+                <div className="clear-both"></div>
                 <div className="">
                     {showEvents === "PAST" && (
-                        <div id="page1" className="mt-20">
+                        <div id="page1" className="">
                             <div className="flex flex-wrap w-full justify-center">
                                 {pastEvents.map((e, i) => {
                                     return <CardEvent key={i} event={e} detailPath={`/detail/${e.id}`} showEvents={showEvents} />;
@@ -63,16 +62,16 @@ const Menu = () => {
                         </div>
                     )}
                     {showEvents === "CURRENT" && (
-                        <div id="page2" className="mt-20">
+                        <div id="page2" className="">
                             <div className="flex flex-wrap w-full justify-center">
                                 {nextEvents.map((e, i) => {
                                     return <CardEvent key={i} event={e} detailPath={`/detail/${e.id}`} showEvents={showEvents} />;
-                                })}
+                                })}{" "}
                             </div>
                         </div>
                     )}
                     {showEvents === "FUTURE" && (
-                        <div id="page3" className="mt-20">
+                        <div id="page3" className="">
                             <div className="flex flex-wrap w-full justify-center">
                                 {futureEvents.map((e, i) => {
                                     return <CardEvent key={i} event={e} detailPath={`/detail/${e.id}`} showEvents={showEvents} />;

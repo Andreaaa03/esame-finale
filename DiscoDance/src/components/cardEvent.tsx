@@ -13,11 +13,11 @@ const CardEvent = ({ event, detailPath, showEvents }: UserCardType) => {
     return (
         <div
             className={`mb-5 card  flex flex-col items-center border rounded-lg shadow md:flex-row  ${
-                showEvents === "CURRENT" ? "w-full lg:w-4/5 min-h-20-rem" : "w-full lg:w-5/12 min-h-15-rem"
+                showEvents === "CURRENT" ? "w-full lg:w-[90%] min-h-20-rem" : "w-full lg:w-5/12 min-h-15-rem"
             }`}>
-            <div className="lg:relative lg:w-1/3 lg:shrink-0 lg:h-full">
+            <div className="lg:relative md:w-1/3 md:shrink-0 md:h-full">
                 <img
-                    className="object-cover w-full rounded-t-lg h-96 md:absolute lg:w-full lg:h-full md:rounded-none md:rounded-s-lg"
+                    className="object-cover w-full rounded-t-lg h-96 md:absolute md:w-full md:h-full md:rounded-none md:rounded-s-lg"
                     src={coverImage}
                     alt="immagine evento"
                 />

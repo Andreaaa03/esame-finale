@@ -4,14 +4,15 @@ import "./App.css";
 import DetailPage from "./pages/DetailPage";
 import HomePage from "./pages/HomePage";
 import AccediRegistrati from "./pages/AccediRegistrati";
+import ProfilePage from "./pages/ProfilePage";
 
 const router = createBrowserRouter([
     {
-        path: "/AccediRegistrati",
+        path: "/",
         element: <AccediRegistrati />,
     },
     {
-        path: "/",
+        path: "/AccediRegistrati",
         element: <AccediRegistrati />,
     },
     {
@@ -23,12 +24,20 @@ const router = createBrowserRouter([
         element: <DetailPage />,
     },
     {
+        path: "/profile",
+        element: <ProfilePage />,
+    },
+    {
         path: "*",
-        element: <Navigate to="/" />,
+        element: <Navigate to="/home" />,
     },
 ]);
 function App() {
-    return <RouterProvider router={router} />;
+    return (
+        <>
+            <RouterProvider router={router} />
+        </>
+    );
 }
 
 export default App;
