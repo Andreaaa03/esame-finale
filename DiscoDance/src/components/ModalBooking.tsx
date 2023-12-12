@@ -1,13 +1,13 @@
 import { ModalsBooking } from "../hooks/useModal";
-type info={
-    time: string,
-    event:number
-}
+type info = {
+    time: string;
+    event: number;
+};
 
-const ModalBooking = (typeInfo:info) => {
+const ModalBooking = (typeInfo: info) => {
     const { time, event } = typeInfo;
-    const { handleSubmit, handleChange, showModal, setShowModal } = ModalsBooking(time, event);
-    
+    const { handleSubmit, users, showModal, setShowModal } = ModalsBooking(time, event);
+
     return (
         <>
             <button
@@ -20,56 +20,109 @@ const ModalBooking = (typeInfo:info) => {
             {showModal ? (
                 <>
                     <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                        <div className="relative w-auto my-6 mx-auto max-w-3xl">
-                            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                                <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t ">
-                                    <h3 className="text-3xl font=semibold">General Info</h3>
-                                    <button className="bg-transparent border-0 text-black float-right" onClick={() => setShowModal(false)}>
-                                        <span className="text-black opacity-7 h-6 w-6 text-xl block bg-gray-400 py-0 rounded-full">x</span>
-                                    </button>
-                                </div>
-                                <div className="relative p-6 flex-auto">
-                                    <h1 className="text-center text-black font-bold mb-1">{time}</h1>
-                                    <form className="bg-gray-200 shadow-md rounded px-8 pt-6 pb-8 w-full">
-                                        <label className="block text-black text-sm font-bold mb-1">First Name</label>
-                                        <input
-                                            id="name"
-                                            className="shadow appearance-none border rounded w-full py-2 px-1 text-black"
-                                            onChange={handleChange}
-                                        />
-                                        <label className="block text-black text-sm font-bold mb-1">Last Name</label>
-                                        <input
-                                            id="surname"
-                                            className="shadow appearance-none border rounded w-full py-2 px-1 text-black"
-                                            onChange={handleChange}
-                                        />
-                                        <label className="block text-black text-sm font-bold mb-1">E-mail</label>
-                                        <input
-                                            id="mail"
-                                            className="shadow appearance-none border rounded w-full py-2 px-1 text-black"
-                                            onChange={handleChange}
-                                        />
-                                        <label className="block text-black text-sm font-bold mb-1">age</label>
-                                        <input
-                                            id="age"
-                                            className="shadow appearance-none border rounded w-full py-2 px-1 text-black"
-                                            onChange={handleChange}
-                                        />
-                                    </form>
-                                </div>
-                                <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-                                    <button
-                                        className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
-                                        type="button"
-                                        onClick={() => setShowModal(false)}>
-                                        Close
-                                    </button>
-                                    <button
-                                        className="text-white bg-yellow-500 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                                        type="button"
-                                        onClick={handleSubmit}>
-                                        Submit
-                                    </button>
+                        <div className="relative w-auto">
+                            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full  outline-none focus:outline-none">
+                                <div className="w-full p-4  border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+                                    <div className="flex flex-nowrap justify-between p-2 pb-6 border-b-2">
+                                        <h5 className="text-xl font-medium text-gray-900 dark:text-white">General Info</h5>
+                                        <span className="text-white">X</span>
+                                    </div>
+                                    {users?.map((user, i) => (
+                                        <form key={i} className="space-y-6 flex flex-wrap" onSubmit={handleSubmit}>
+                                            <div className=""></div>
+                                            <div className="w-1/2 m-0 mt-0 p-2">
+                                                <label
+                                                    htmlFor="name"
+                                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                    Name
+                                                </label>
+                                                <input
+                                                    readOnly
+                                                    type="text"
+                                                    name="name"
+                                                    id="name"
+                                                    placeholder="name"
+                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                    required
+                                                    value={user.name}
+                                                />
+                                            </div>
+                                            <div className="w-1/2 m-0 mt-0 p-2">
+                                                <label
+                                                    htmlFor="surname"
+                                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                    Surname
+                                                </label>
+                                                <input
+                                                    readOnly
+                                                    type="text"
+                                                    name="surname"
+                                                    id="surname"
+                                                    placeholder="surname"
+                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                    required
+                                                    value={user.surname}
+                                                />
+                                            </div>
+                                            <div className="w-1/2 m-0 mt-0 p-2">
+                                                <label
+                                                    htmlFor="age"
+                                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                    Age
+                                                </label>
+                                                <input
+                                                    readOnly
+                                                    type="number"
+                                                    name="age"
+                                                    id="age"
+                                                    placeholder="age"
+                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                    required
+                                                    min="18"
+                                                    max="110"
+                                                    value={user.age}
+                                                />
+                                            </div>
+                                            <div className="w-1/2 m-0 mt-0 p-2">
+                                                <label
+                                                    htmlFor="email"
+                                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                    Your email
+                                                </label>
+                                                <input
+                                                    readOnly
+                                                    type="email"
+                                                    name="email"
+                                                    id="email"
+                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                    placeholder="name@company.com"
+                                                    required
+                                                    value={user.mail}
+                                                />
+                                            </div>
+                                            <div className="flex flex-nowrap w-full border-t-2 pt-4">
+                                                <div className="p-2 flex flex-wrap w-full">
+                                                    <button
+                                                        type="submit"
+                                                        className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
+                                                                focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600
+                                                                dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                        Prenota
+                                                    </button>
+                                                </div>
+                                                <div className="p-2 flex flex-wrap w-full">
+                                                    <button
+                                                        type="button"
+                                                        className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
+                                                                focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600
+                                                                dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                                        onClick={() => setShowModal(false)}>
+                                                        Chiudi
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    ))}
                                 </div>
                             </div>
                         </div>

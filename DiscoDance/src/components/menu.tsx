@@ -25,7 +25,7 @@ const Menu = () => {
                             <a
                                 onClick={() => setShowEvents("PAST")}
                                 className={`flex justify-center border-b-4 border-transparent py-4 hover:cursor-pointer ${
-                                    showEvents === "PAST" ? " text-indigo-600 border-indigo-600" : ""
+                                    showEvents === "PAST" ? " text-indigo-600 border-indigo-600 font-bold" : ""
                                 }`}>
                                 Eventi passati
                             </a>
@@ -34,7 +34,7 @@ const Menu = () => {
                             <a
                                 onClick={() => setShowEvents("CURRENT")}
                                 className={`flex justify-center border-b-4 border-transparent py-4 hover:cursor-pointer ${
-                                    showEvents === "CURRENT" ? " text-indigo-600 border-indigo-600" : ""
+                                    showEvents === "CURRENT" ? " text-indigo-600 border-indigo-600 font-bold" : ""
                                 }`}>
                                 Prossimo evento
                             </a>
@@ -43,7 +43,7 @@ const Menu = () => {
                             <a
                                 onClick={() => setShowEvents("FUTURE")}
                                 className={`flex justify-center border-b-4 border-transparent py-4 hover:cursor-pointer ${
-                                    showEvents === "FUTURE" ? " text-indigo-600 border-indigo-600" : ""
+                                    showEvents === "FUTURE" ? " text-indigo-600 border-indigo-600 font-bold" : ""
                                 }`}>
                                 Eventi futuri
                             </a>

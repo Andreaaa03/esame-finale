@@ -43,12 +43,14 @@ export function writeOnDB(
 export function writeOnDBforUser(
     name: string,
     surname: string,
+    age: number,
     mail: string,
     database: Database,
 ) {
     push(ref(database, "users/"), {
         name,
         surname,
+        age,
         mail
     });
 }
@@ -68,8 +70,8 @@ export async function readOnDBBooking(db: Database): Promise<Record<string, stri
                 ...(data as Record<string, string | number>),
             }));
 
-            const userBookings = bookingArray.filter(entry => 'mail' in entry && entry.mail === userEmail);
-            console.log(userBookings);
+            const userBookings = bookingArray.filter(pre => 'mail' in pre && pre.mail === userEmail);
+            // console.log(userBookings);
             return userBookings;
         }
     } catch (error) {
@@ -77,21 +79,6 @@ export async function readOnDBBooking(db: Database): Promise<Record<string, stri
     }
     return null;
 }
-
-
-const tempoInattivo = 10 * 60 * 1000;
-let timeoutId: NodeJS.Timeout;
-export function resetSession() {
-    sessionStorage.removeItem("userEmail");
-}
-function setTempoInattivo() {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(resetSession, tempoInattivo);
-}
-
-document.addEventListener("mousemove", setTempoInattivo);
-document.addEventListener("keydown", setTempoInattivo);
-
 
 export async function readOnDBUsers(db: Database): Promise<Record<string, string | number>[] | null> {
     let users;
@@ -106,8 +93,8 @@ export async function readOnDBUsers(db: Database): Promise<Record<string, string
                 ...(data as Record<string, string | number>),
             }));
 
-            users = usersArray.filter(entry => 'mail' in entry && entry.mail === userEmail);
-            console.log(users);
+            users = usersArray.filter(user => 'mail' in user && user.mail === userEmail);
+            // console.log(users);
             return users;
         }
     } catch (error) {
@@ -115,3 +102,17 @@ export async function readOnDBUsers(db: Database): Promise<Record<string, string
     }
     return null;
 }
+
+
+const tempoInattivo = 10 * 60 * 1000; //10 min
+let timeoutId: NodeJS.Timeout;
+export function resetSession() {
+    sessionStorage.removeItem("userEmail");
+}
+function setTempoInattivo() {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(resetSession, tempoInattivo);
+}
+
+document.addEventListener("mousemove", setTempoInattivo);
+document.addEventListener("keydown", setTempoInattivo);

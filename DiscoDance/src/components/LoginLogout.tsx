@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { auth, db, writeOnDBforUser } from "../utils/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const LoginLogout = () => {
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
+    const [age, setAge] = useState(18);
     const [mail, setMail] = useState("");
     const [password, setPassword] = useState("");
     const [log, setLog] = useState(false);
@@ -16,27 +17,32 @@ export const LoginLogout = () => {
         signInWithEmailAndPassword(auth, mail, password)
             .then(() => {
                 sessionStorage.setItem("userEmail", JSON.stringify(mail));
-                navigate("/home");
+                navigate("/");
             })
             .catch((e) => {
                 console.log("credenziali sbagliate" + e);
             });
     };
-    const logicSignIn = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const logicSignIn = (event: React.MouseEvent<HTMLFormElement>) => {
         console.log(name, surname, mail, password);
         event.preventDefault();
         createUserWithEmailAndPassword(auth, mail, password)
-            .then(()=>{
-                writeOnDBforUser(name, surname, mail, db)
+            .then(() => {
+                writeOnDBforUser(name, surname, age, mail, db);
             })
-            .catch((e)=>{
-                console.log("qualcosa è andato storto"+e);
-            })
+            .catch((e) => {
+                console.log("qualcosa è andato storto" + e);
+            });
         setLog(false);
     };
 
     return (
         <div className="">
+            <div className="w-full flex justify-center mb-2">
+                <Link to={"/"}>
+                    <button className="text-center py-2 px-3 bg-green-700">Torna indietro</button>
+                </Link>
+            </div>
             {log === false && (
                 <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
                     <form className="space-y-6">
@@ -95,8 +101,8 @@ export const LoginLogout = () => {
                             </a>
                         </div>
                         <button
-                            className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            onClick={logicLogIn}>
+                            onClick={logicLogIn}
+                            className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             Login to your account
                         </button>
                         <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
@@ -110,7 +116,7 @@ export const LoginLogout = () => {
             )}
             {log === true && (
                 <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
-                    <form className="space-y-6">
+                    <form className="space-y-6" onSubmit={logicSignIn}>
                         <h5 className="text-xl font-medium text-gray-900 dark:text-white">Sign in to our plathtmlForm</h5>
                         <div>
                             <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -134,7 +140,7 @@ export const LoginLogout = () => {
                                 Surname
                             </label>
                             <input
-                                type="surname"
+                                type="text"
                                 name="surname"
                                 id="surname"
                                 placeholder="surname"
@@ -143,6 +149,25 @@ export const LoginLogout = () => {
                                 value={surname}
                                 onChange={(e) => {
                                     setSurname(e.target.value);
+                                }}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="age" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Age
+                            </label>
+                            <input
+                                type="number"
+                                name="age"
+                                id="age"
+                                placeholder="age"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                required
+                                min="18"
+                                max="110"
+                                value={age}
+                                onChange={(e) => {
+                                    setAge(parseInt(e.target.value));
                                 }}
                             />
                         </div>
@@ -184,8 +209,7 @@ export const LoginLogout = () => {
                             <button
                                 className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
                                 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600
-                                dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                onClick={logicSignIn}>
+                                dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 Create your account
                             </button>
                         </div>

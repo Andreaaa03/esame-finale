@@ -24,10 +24,9 @@ const useProfile =()=>{
         };
 
         if (!JSON.parse(sessionStorage.getItem("userEmail") as string)) {
-            navigate("/");
+            navigate("/AccediRegistrati");
         } else {
             fetchData();
-            console.log(users);
         }
 
     }, [navigate]);

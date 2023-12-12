@@ -1,15 +1,16 @@
 import ModalBooking from "../components/ModalBooking";
 import { useDetailEvents } from "../hooks/useDetailEvents";
 import gif from "../assets/Spin-0.gif";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 const DetailPage = () => {
     const { singleEvent, isLoading } = useDetailEvents();
     const navigate = useNavigate();
+
     useEffect(() => {
         if (!JSON.parse(sessionStorage.getItem("userEmail") as string)) {
-            navigate("/");
+            navigate("/AccediRegistrati");
         }
     });
     if (isLoading) {
@@ -22,9 +23,9 @@ const DetailPage = () => {
     } else {
         return (
             <div>
-                <Link to={"/home"}>
-                    <button className="bg-green-500">home</button>
-                </Link>
+                <button onClick={() => window.history.back()} className="bg-green-500">
+                    indietro
+                </button>
                 <h1>dettaglio</h1>
                 <img src={singleEvent?.coverImage} alt="img" />
                 <p>{singleEvent?.id}</p>

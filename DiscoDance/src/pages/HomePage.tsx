@@ -1,18 +1,12 @@
-import { useEffect } from "react";
 import Menu from "../components/Menu";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import person from "../assets/user.png";
 const HomePage = () => {
-    const navigate = useNavigate();
-    useEffect(() => {
-        if (!JSON.parse(sessionStorage.getItem("userEmail") as string)) {
-            navigate("/");
-        }
-    });
+    
     return (
         <div>
-            {JSON.parse(sessionStorage.getItem("userEmail") as string) && (
+            
                 <div className="">
                     <Menu />
                     <div className="bg-white rounded-full h-14 w-14 fixed bottom-7 left-7">
@@ -23,7 +17,7 @@ const HomePage = () => {
                         </div>
                     </div>
                 </div>
-            )}
+            
         </div>
     );
     

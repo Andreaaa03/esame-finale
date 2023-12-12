@@ -9,7 +9,7 @@ import ProfilePage from "./pages/ProfilePage";
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <AccediRegistrati />,
+        element: <HomePage />,
     },
     {
         path: "/AccediRegistrati",

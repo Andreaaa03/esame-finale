@@ -1,29 +1,35 @@
-import { useState } from "react";
-import { db, writeOnDB } from "../utils/firebase";
+import { useEffect, useState } from "react";
+import { db, readOnDBUsers, writeOnDB } from "../utils/firebase";
 
-export const ModalsBooking = (time:string, event:number) =>{
+export const ModalsBooking = (time: string, event: number) => {
     const [showModal, setShowModal] = useState(false);
-    const [formData, setFormData] = useState({
-        name: "",
-        surname: "",
-        mail: "",
-        age: -1,
-    });
-    // mi prendo i valori degli id e li aggiungo all'o,ggetto
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { id, value } = e.target;
-        setFormData((prevData) => ({ ...prevData, [id]: value }));
-    };
+    const [users, setUsers] = useState<Record<string, string | number>[] | null>(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setUsers(await readOnDBUsers(db));
+            } catch (error) {
+                // Handle error if needed
+                console.error('Error fetching data:', error);
+            }
+        };
+        fetchData();
+    }, []);
 
     const handleSubmit = () => {
-        if (formData.name != "" && formData.surname != "" && formData.mail != "" && formData.age >=0 ) {
-            writeOnDB(formData.name, formData.surname, formData.mail, formData.age, event, time, db);
-        } else {
-            console.log("missed value");
+
+        if (users != null) {
+            for (let i = 0; i < users.length; i++) {
+                const name = users[i].name.toString();
+                const surname = users[i].surname.toString();
+                const mail = users[i].mail.toString();
+                writeOnDB(name, surname, mail, users[i].age as number, event, time, db);
+            }
         }
         // chiudo la modale
         setShowModal(false);
     };
 
-    return { handleSubmit, handleChange, showModal, setShowModal}
+    return { handleSubmit, users, showModal, setShowModal }
 }
