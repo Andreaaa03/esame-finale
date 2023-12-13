@@ -1,18 +1,11 @@
 import ModalBooking from "../components/ModalBooking";
 import { useDetailEvents } from "../hooks/useDetailEvents";
 import gif from "../assets/Spin-0.gif";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const DetailPage = () => {
     const { singleEvent, isLoading } = useDetailEvents();
-    const navigate = useNavigate();
 
-    useEffect(() => {
-        if (!JSON.parse(sessionStorage.getItem("userEmail") as string)) {
-            navigate("/AccediRegistrati");
-        }
-    });
     if (isLoading) {
         return (
             <div className="h-1/4 w-1/4">
@@ -33,9 +26,18 @@ const DetailPage = () => {
                 <p>{singleEvent?.description.long}</p>
                 <p>{singleEvent?.includedDrinks}</p>
                 <p>{singleEvent?.isAperitivoIncluded}</p>
-                {singleEvent?.time.map((t, i) => (
-                    <ModalBooking time={t} key={i} event={singleEvent.id} />
-                ))}
+                {JSON.parse(sessionStorage.getItem("userEmail") as string) &&
+                    singleEvent?.time.map((t, i) => <ModalBooking time={t} key={i} event={singleEvent.id} />)}
+                {!JSON.parse(sessionStorage.getItem("userEmail") as string) && 
+                    <div className="flex flex-wrap">
+                        <p className="text-white">Per PRENOTARE devi REGISTRRTI</p>
+                        <Link to={"/AccediRegistrati"}>
+                            <button className="mx-2 px-2 underline text-blue-700 bg-red-500">
+                                Accedi
+                            </button>
+                        </Link>
+                    </div>
+                }
                 {singleEvent?.isAperitivoIncluded === true &&
                     singleEvent?.includedDishes.map((e, i) => {
                         return (
