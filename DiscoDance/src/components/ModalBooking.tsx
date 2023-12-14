@@ -24,17 +24,15 @@ const ModalBooking = (typeInfo: info) => {
                             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full  outline-none focus:outline-none">
                                 <div className="w-full p-4  border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
                                     <div className="flex flex-nowrap justify-between p-2 pb-6 border-b-2">
-                                        <h5 className="text-xl font-medium text-gray-900 dark:text-white">General Info</h5>
-                                        {prenotato===true && mex===true && <p className="text-green-500">Prenotazione andata a buon fine.</p>}
-                                        {prenotato===true && mex===false && <p className="text-red-500">Prenotazione fallita!</p>}
-                                        <span onClick={() => setShowModal(false)} className="text-white hover:cursor-pointer">
+                                        <h5 className="text-xl font-medium text-gray-900 dark:text-white pl-4">General Info</h5>
+                                        <span onClick={() => setShowModal(false)} className="text-white hover:cursor-pointer pr-4 w-10 text-center">
                                             X
                                         </span>
                                     </div>
                                     {users?.map((user, i) => (
-                                        <form key={i} className="space-y-6 flex flex-wrap" onSubmit={handleSubmit}>
+                                        <form key={i} className="md:space-y-6 flex flex-wrap" onSubmit={handleSubmit}>
                                             <div className=""></div>
-                                            <div className="w-1/2 m-0 mt-0 p-2">
+                                            <div className="md:w-1/2 w-full m-0 p-2">
                                                 <label
                                                     htmlFor="name"
                                                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -51,7 +49,7 @@ const ModalBooking = (typeInfo: info) => {
                                                     value={user.name}
                                                 />
                                             </div>
-                                            <div className="w-1/2 m-0 mt-0 p-2">
+                                            <div className="md:w-1/2 w-full m-0 p-2">
                                                 <label
                                                     htmlFor="surname"
                                                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -68,7 +66,7 @@ const ModalBooking = (typeInfo: info) => {
                                                     value={user.surname}
                                                 />
                                             </div>
-                                            <div className="w-1/2 m-0 mt-0 p-2">
+                                            <div className="md:w-1/2 w-full m-0 p-2">
                                                 <label
                                                     htmlFor="age"
                                                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -87,7 +85,7 @@ const ModalBooking = (typeInfo: info) => {
                                                     value={user.age}
                                                 />
                                             </div>
-                                            <div className="w-1/2 m-0 mt-0 p-2">
+                                            <div className="md:w-1/2 w-full m-0 p-2">
                                                 <label
                                                     htmlFor="email"
                                                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -124,6 +122,14 @@ const ModalBooking = (typeInfo: info) => {
                                                         Chiudi
                                                     </button>
                                                 </div>
+                                            </div>
+                                            <div className="flex justify-center w-full">
+                                                {prenotato === true && mex === true && (
+                                                    <p className="text-green-500">Prenotazione andata a buon fine.</p>
+                                                )}
+                                                {prenotato === true && mex === false && (
+                                                    <p className="text-red-500">Prenotazione fallita!</p>
+                                                )}
                                             </div>
                                         </form>
                                     ))}

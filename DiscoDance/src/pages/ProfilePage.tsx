@@ -3,13 +3,15 @@ import CardEvent from "../components/CardEvent";
 import { useAllEvents } from "../hooks/useEvents";
 import useProfile from "../hooks/useProfile";
 import { auth } from "../utils/firebase";
-import { sendEmailVerification, updateEmail } from "firebase/auth";
+import { updateEmail } from "firebase/auth";
 
 const ProfilePage = () => {
     const {
         isLoading,
         booking,
-        esci,
+        esci, 
+        eliminaProfilo, 
+        eliminaPrenotazione,
         nameUser,
         surnameUser,
         ageUser,
@@ -28,23 +30,15 @@ const ProfilePage = () => {
         if (auth.currentUser != null && mailUser != null && typeof mailUser !== "number" && mailUser !== firstMailUser) {
             console.log("Entrato");
 
-            try {
-                await sendEmailVerification(auth.currentUser);
-                if (auth.currentUser.emailVerified) {
-                    await updateEmail(auth.currentUser, mailUser);
-                    console.log("Aggiornato");
-                }
-            } catch (error) {
-                console.log("Errore:", error);
-            }
+            updateEmail(auth.currentUser, firstMailUser)
+                .then(() => {
+                    console.log("ok");
+                })
+                .catch((e) => {
+                    console.log("error" + e);
+                });
         }
     };
-    // updateProfile(auth, {
-    //     name: nameUser,
-    //     surname: surnameUser,
-    //     age: ageUser,
-    //     email: mailUser,
-    // });
     if (isLoading) {
         return (
             <>
@@ -54,12 +48,12 @@ const ProfilePage = () => {
     } else {
         return (
             <>
-                <div className="flex flex-nowrap">
-                    <div className="w-1/3 ">
-                        <div className="fixed w-1/3 pt-6 pl-6 ">
+                <div className="flex md:flex-nowrap flex-wrap">
+                    <div className="md:w-1/3 ">
+                        <div className="md:fixed md:w-1/3 md:pt-6 md:pl-6 p-4">
                             <div className="">
                                 <Link to="/home">
-                                    <button className="bg-white rounded-2xl px-3 py-2">HOME</button>
+                                    <button className="bg-white rounded-2xl px-3 py-2 font-bold">HOME</button>
                                 </Link>
                             </div>
                             <div className="py-5">
@@ -101,14 +95,6 @@ const ProfilePage = () => {
                                             value={mailUser}
                                             onChange={(e) => setMailUser(e.target.value)}
                                         />
-                                        <div className="w-full">
-                                            <div className="w-full my-2 p-2 border-2 border-black bg-white flex justify-between items-center">
-                                                <div className="h-full pr-2">
-                                                    <input className="h-full" type="checkbox" required /> Modifiche effettuate
-                                                </div>
-                                                <button className="bg-red-600 rounded-2xl px-3 py-2">MODIFICA</button>
-                                            </div>
-                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -118,27 +104,47 @@ const ProfilePage = () => {
                                         <div className="h-full pr-2">
                                             <input className="h-full" type="checkbox" required /> LOG OUT
                                         </div>
-                                        <button className="bg-red-600 rounded-2xl px-3 py-2">CONFERMA</button>
+                                        <button className="bg-red-600 rounded-2xl px-3 py-2 font-bold">CONFERMA</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div className="w-full">
+                                <form className="" onSubmit={eliminaProfilo}>
+                                    <div className="w-full my-2 p-2 border-2 border-black bg-white flex justify-between items-center">
+                                        <div className="h-full pr-2">
+                                            <input className="h-full" type="checkbox" required /> ELIMINA PROFILO
+                                        </div>
+                                        <button className="bg-red-600 rounded-2xl px-3 py-2 font-bold">CONFERMA</button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-                    <div className="w-2/3 pt-2">
+                    <div className="md:w-2/3 pt-2">
+                        <h2 className="w-full text-center text-2xl font-bold">Le tue prenotazioni</h2>
                         {event?.map((singleEvent, j) => {
                             return booking?.map((singleBooking, i) => {
                                 if (singleBooking.event === singleEvent.id) {
                                     return (
-                                        <div key={`${j}+${i}`} className="flex flex-wrap justify-center mt-6 border-b-2 border-black ml-6">
-                                            <h2 className="font-bold text-2xl m-0 p-0 flex justify-center text-white">
-                                                {singleEvent.name} &nbsp; <u>Booked at: {singleBooking.time_selected}</u>
-                                            </h2>
+                                        <div
+                                            key={`${j}+${i}`}
+                                            className="flex flex-wrap pb-2 mb-4 justify-center md:mt-6  border-b-2 border-black md:ml-6">
                                             <CardEvent
                                                 key={`${j}+${i}`}
                                                 event={singleEvent}
                                                 detailPath={`/detail/${singleEvent.id}`}
                                                 showEvents={"CURRENT"}
                                             />
+                                            <div className="flex md:w-[50%] w-full flex-wrap justify-around ">
+                                                <h2 className="font-bold text-2xl mx-2 md:m-0 md:p-0 pb-2 text-white flex items-center">
+                                                    <u>Booked at: {singleBooking.time_selected}</u>
+                                                </h2>
+                                                <button
+                                                    onClick={() =>{eliminaPrenotazione(singleBooking.event, singleBooking.id)}}
+                                                    className="text-1xl bg-red-700 px-3 py-2 md:m-0 mb-2 flex justify-end text-white rounded-xl font-bold">
+                                                    elimina prenotazione
+                                                </button>
+                                            </div>
                                         </div>
                                     );
                                 }

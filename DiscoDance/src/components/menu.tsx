@@ -51,9 +51,9 @@ const Menu = () => {
                     </ul>
                 </div>
                 <div className="clear-both"></div>
-                <div className="">
+                <div className="pb-20">
                     {showEvents === "PAST" && (
-                        <div id="page1" className="">
+                        <div className="">
                             <div className="flex flex-wrap w-full justify-center">
                                 {pastEvents.map((e, i) => {
                                     return <CardEvent key={i} event={e} detailPath={`/detail/${e.id}`} showEvents={showEvents} />;
@@ -62,16 +62,18 @@ const Menu = () => {
                         </div>
                     )}
                     {showEvents === "CURRENT" && (
-                        <div id="page2" className="">
-                            <div className="flex flex-wrap w-full justify-center">
-                                {nextEvents.map((e, i) => {
-                                    return <CardEvent key={i} event={e} detailPath={`/detail/${e.id}`} showEvents={showEvents} />;
-                                })}{" "}
+                        <div className="flex justify-center">
+                            <div className="w-[80%]">
+                                <div className="flex flex-wrap w-full justify-center">
+                                    {nextEvents.map((e, i) => {
+                                        return <CardEvent key={i} event={e} detailPath={`/detail/${e.id}`} showEvents={showEvents} />;
+                                    })}{" "}
+                                </div>
                             </div>
                         </div>
                     )}
                     {showEvents === "FUTURE" && (
-                        <div id="page3" className="">
+                        <div className="">
                             <div className="flex flex-wrap w-full justify-center">
                                 {futureEvents.map((e, i) => {
                                     return <CardEvent key={i} event={e} detailPath={`/detail/${e.id}`} showEvents={showEvents} />;

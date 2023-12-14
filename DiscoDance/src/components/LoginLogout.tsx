@@ -124,11 +124,11 @@ export const LoginLogout = () => {
                 </div>
             )}
             {visible === true && log === true && (
-                <div className="w-3/6 p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
-                    <form className="space-y-6" onSubmit={logicSignIn}>
+                <div className="md:w-3/6 w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+                    <form className="md:space-y-6" onSubmit={logicSignIn}>
                         <h5 className="text-xl font-medium text-gray-900 dark:text-white">Sign in to our plathtmlForm</h5>
                         <div className="flex flex-wrap">
-                            <div className="w-1/3 p-2">
+                            <div className="md:w-1/3 w-full p-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Name
                                 </label>
@@ -145,7 +145,7 @@ export const LoginLogout = () => {
                                     }}
                                 />
                             </div>
-                            <div className="w-1/3 p-2">
+                            <div className="md:w-1/3 w-full p-2">
                                 <label htmlFor="surname" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Surname
                                 </label>
@@ -162,7 +162,7 @@ export const LoginLogout = () => {
                                     }}
                                 />
                             </div>
-                            <div className="w-1/3 p-2">
+                            <div className="md:w-1/3 w-full p-2">
                                 <label htmlFor="age" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Age
                                 </label>
@@ -181,7 +181,7 @@ export const LoginLogout = () => {
                                     }}
                                 />
                             </div>
-                            <div className="w-2/3 p-2">
+                            <div className="md:w-2/3 w-full p-2">
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Your email
                                 </label>
@@ -198,7 +198,7 @@ export const LoginLogout = () => {
                                     }}
                                 />
                             </div>
-                            <div className="w-1/3 p-2">
+                            <div className="md:w-1/3 w-full p-2">
                                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Your password
                                 </label>
@@ -216,16 +216,16 @@ export const LoginLogout = () => {
                                 />
                             </div>
                         </div>
-                        <div className="flex flex-wrap justify-between">
-                            <div className="text-sm font-medium text-gray-500 dark:text-gray-300 flex items-center">
+                        <div className="flex flex-wrap flex-col-reverse md:flex-row justify-between">
+                            <div className="text-sm font-medium text-gray-500 dark:text-gray-300 flex items-center p-2">
                                 Already registered?{" "}
                                 <a href="#" className="text-blue-700 hover:underline dark:text-blue-500" onClick={() => setLog(false)}>
                                     Go back and login
                                 </a>
                             </div>
-                            <div className="w-1/3 p-2">
+                            <div className="md:w-1/3 w-full p-2">
                                 <button
-                                    className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
+                                    className="w-full order-0 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
                                     focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600
                                     dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                     Create your account

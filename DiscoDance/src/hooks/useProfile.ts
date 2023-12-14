@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db, readOnDBBooking, readOnDBUsers, resetSession } from "../utils/firebase";
-import { signOut } from "firebase/auth";
+import { deleteUser, signOut } from "firebase/auth";
+import { ref, remove } from "firebase/database";
 
 const useProfile = () => {
     const navigate = useNavigate();
@@ -24,7 +25,7 @@ const useProfile = () => {
                 setBooking(bookingsData);
                 setUsers(usersData);
 
-                if (usersData!= null) {
+                if (usersData != null) {
                     setNameUser(String(usersData[0].name));
                     setSurnameUser(String(usersData[0].surname));
                     setAgeUser(Number(usersData[0].age));
@@ -59,8 +60,69 @@ const useProfile = () => {
             });
     };
 
+
+    const eliminaProfilo = (event: React.MouseEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        users?.forEach(u => {
+            if (u.mail === emailSessione) {
+                console.log("email: " + u.mail + " " + emailSessione);
+                remove(
+                    ref(db, 'users/' + u.id)
+                )
+                    .then(() => {
+                        console.log("ok");
+                        if (auth.currentUser) {
+                            users?.forEach((u) => {
+                                console.log("email: " + u.mail + " " + emailSessione);
+                                if (u.mail === emailSessione) {
+                                    booking?.forEach(b => {
+                                        if (b.mail === emailSessione) {
+                                            console.log(b.id)
+                                            remove(
+                                                ref(db, 'booking/' + b.id)
+                                            ).then(() => {
+                                                window.location.reload();
+                                            }).catch((e) => { console.log("error: " + e) });
+                                        }
+                                    });
+                                }
+                            })
+                            deleteUser(auth.currentUser);
+                            navigate("/");
+                            resetSession();
+                        } else
+                            console.log("eliminazione utente NON effettuata!!!");
+                    })
+                    .catch((error) => {
+                        console.log("error: " + error);
+                    });
+            }
+        })
+    }
+
+    const eliminaPrenotazione = (evento: string | number, idBooking: string | number) => {
+        users?.forEach((u) => {
+            console.log("email: " + u.mail + " " + emailSessione);
+            if (u.mail === emailSessione) {
+                booking?.forEach(b => {
+                    console.log("booking: " + b.mail);
+                    console.log("booking: " + b.event);
+                    console.log("evento: " + evento);
+                    if (b.mail === emailSessione && b.event === evento && b.id === idBooking) {
+                        console.log(b.id)
+                        remove(
+                            ref(db, 'booking/' + b.id)
+                        ).then(() => {
+                            window.location.reload();
+                        }).catch((e) => { console.log("error: " + e) });
+                    }
+                });
+            }
+        })
+    }
+
     return {
-        isLoading, booking, users, esci, nameUser, surnameUser, ageUser, mailUser, firstMailUser, setNameUser, setSurnameUser, setAgeUser, setMailUser, setFirstMailUser
+        isLoading, booking, users, esci, eliminaProfilo, eliminaPrenotazione, nameUser, surnameUser, ageUser, mailUser, firstMailUser, setNameUser, setSurnameUser, setAgeUser, setMailUser, setFirstMailUser
     }
 }
 export default useProfile;
