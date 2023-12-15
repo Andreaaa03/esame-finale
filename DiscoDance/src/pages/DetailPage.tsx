@@ -83,10 +83,10 @@ const DetailPage = () => {
                         <div className="p-4 mb-10 pb-10 flex flex-wrap justify-center w-full md:pb-0 md:mb-0">
                             <h2 className="font-bold w-full text-center pb-2 md:text-2xl">Scegli un orario per prenotare:</h2>
                             {!JSON.parse(sessionStorage.getItem("userEmail") as string) && (
-                                <div className="flex flex-wrap">
-                                    <p className="text-white">Per PRENOTARE devi REGISTRATI</p>
+                                <div className="flex flex-wrap h-full items-center">
+                                    <p className="">Per PRENOTARE devi REGISTRARTI</p>
                                     <Link to={"/AccediRegistrati"}>
-                                        <button className="mx-2 px-2 underline text-blue-700 bg-red-500">Accedi</button>
+                                        <button className="mx-2 underline font-bold px-3 py-2 rounded-xl bg-white ">Accedi</button>
                                     </Link>
                                 </div>
                             )}

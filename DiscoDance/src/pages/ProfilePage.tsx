@@ -7,8 +7,8 @@ const ProfilePage = () => {
     const {
         isLoading,
         booking,
-        esci, 
-        eliminaProfilo, 
+        esci,
+        eliminaProfilo,
         eliminaPrenotazione,
         nameUser,
         surnameUser,
@@ -40,11 +40,12 @@ const ProfilePage = () => {
                             </div>
                             <div className="py-5">
                                 <div className="flex flex-wrap">
-                                    <form action="" className="flex flex-wrap" >
+                                    <form action="" className="flex flex-wrap">
                                         <div className="w-[20%] flex items-center">
                                             <p className="w-full text-white">Name</p>
                                         </div>
                                         <input
+                                            readOnly
                                             className="w-[80%] my-2 p-2 border-2 border-black read-only: "
                                             type="text"
                                             value={nameUser}
@@ -54,6 +55,7 @@ const ProfilePage = () => {
                                             <p className="w-full text-white">Surname</p>
                                         </div>
                                         <input
+                                            readOnly
                                             className="w-[80%] my-2 p-2 border-2 border-black read-only: "
                                             type="text"
                                             value={surnameUser}
@@ -63,6 +65,7 @@ const ProfilePage = () => {
                                             <p className="w-full text-white">Age</p>
                                         </div>
                                         <input
+                                            readOnly
                                             className="w-[80%] my-2 p-2 border-2 border-black read-only: "
                                             type="number"
                                             value={ageUser}
@@ -72,6 +75,7 @@ const ProfilePage = () => {
                                             <p className="w-full text-white">Email</p>
                                         </div>
                                         <input
+                                            readOnly
                                             className="w-[80%] my-2 p-2 border-2 border-black read-only: "
                                             type="email"
                                             value={mailUser}
@@ -122,7 +126,9 @@ const ProfilePage = () => {
                                                     <u>Booked at: {singleBooking.time_selected}</u>
                                                 </h2>
                                                 <button
-                                                    onClick={() =>{eliminaPrenotazione(singleBooking.event, singleBooking.id)}}
+                                                    onClick={() => {
+                                                        eliminaPrenotazione(singleBooking.event, singleBooking.id);
+                                                    }}
                                                     className="text-1xl bg-red-700 px-3 py-2 md:m-0 mb-2 flex justify-end text-white rounded-xl font-bold">
                                                     elimina prenotazione
                                                 </button>

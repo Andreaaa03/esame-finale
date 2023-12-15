@@ -18,7 +18,7 @@ export const useDetailEvents = () => {
                 ...event,
                 time: event.time ? [...event.time] : [],
             };
-            for(let i=0, min=15; i<6; i++, min+=15) {
+            for(let i=0, min=0; i<6; i++, min+=15) {
                 const t = dayjs(event.date).add(min, 'minute').format('HH:mm');
                 updateEvent.time.push(t);
             }
