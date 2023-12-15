@@ -14,9 +14,11 @@ const useProfile = () => {
     const [ageUser, setAgeUser] = useState<number>(0);
     const [mailUser, setMailUser] = useState<string>("");
     const [firstMailUser, setFirstMailUser] = useState<string>("");
+    const [ricarico, setRicarico] = useState<string>("");
     const emailSessione = JSON.parse(sessionStorage.getItem("userEmail") as string);
     useEffect(() => {
         const fetchData = async () => {
+            setRicarico("");
             setIsLoading(true);
             try {
                 const bookingsData = await readOnDBBooking(db);
@@ -46,7 +48,7 @@ const useProfile = () => {
         } else {
             fetchData();
         }
-    }, [emailSessione, navigate]);  // Aggiunto emailSessione come dipendenza
+    }, [emailSessione, navigate, ricarico]);  // Aggiunto emailSessione come dipendenza
 
     const esci = (event: React.MouseEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -70,14 +72,11 @@ const useProfile = () => {
                     ref(db, 'users/' + u.id)
                 )
                     .then(() => {
-                        console.log("ok");
                         if (auth.currentUser) {
                             users?.forEach((u) => {
-                                console.log("email: " + u.mail + " " + emailSessione);
                                 if (u.mail === emailSessione) {
                                     booking?.forEach(b => {
                                         if (b.mail === emailSessione) {
-                                            console.log(b.id)
                                             remove(
                                                 ref(db, 'booking/' + b.id)
                                             ).then(() => {
@@ -102,18 +101,14 @@ const useProfile = () => {
 
     const eliminaPrenotazione = (evento: string | number, idBooking: string | number) => {
         users?.forEach((u) => {
-            console.log("email: " + u.mail + " " + emailSessione);
             if (u.mail === emailSessione) {
                 booking?.forEach(b => {
-                    console.log("booking: " + b.mail);
-                    console.log("booking: " + b.event);
-                    console.log("evento: " + evento);
                     if (b.mail === emailSessione && b.event === evento && b.id === idBooking) {
-                        console.log(b.id)
                         remove(
                             ref(db, 'booking/' + b.id)
                         ).then(() => {
-                            window.location.reload();
+                            // window.location.reload();
+                            setRicarico(".");
                         }).catch((e) => { console.log("error: " + e) });
                     }
                 });

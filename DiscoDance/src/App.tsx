@@ -5,7 +5,7 @@ import DetailPage from "./pages/DetailPage";
 import HomePage from "./pages/HomePage";
 import AccediRegistrati from "./pages/AccediRegistrati";
 import ProfilePage from "./pages/ProfilePage";
-import Header from "./pages/header";
+import Header from "./pages/Header";
 
 const router = createBrowserRouter([
     {

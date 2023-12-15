@@ -101,7 +101,7 @@ const DetailPage = () => {
                                 singleEvent?.date &&
                                 datetime <= singleEvent?.date &&
                                 singleEvent?.time.map((t, i) => <ModalBooking time={t} key={i} event={singleEvent.id} />)}
-                            {JSON.parse(sessionStorage.getItem("userEmail") as string) &&
+                            {
                                 singleEvent?.date &&
                                 datetime >= singleEvent?.date && (
                                     <div className="flex flex-wrap h-full items-center">
