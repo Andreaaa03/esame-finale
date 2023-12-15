@@ -5,11 +5,12 @@ import DetailPage from "./pages/DetailPage";
 import HomePage from "./pages/HomePage";
 import AccediRegistrati from "./pages/AccediRegistrati";
 import ProfilePage from "./pages/ProfilePage";
+import Header from "./pages/header";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <HomePage />,
+        element: <Header />,
     },
     {
         path: "/AccediRegistrati",

@@ -5,3 +5,13 @@
 body {
     background-color: #4f78fe;
 }
+
+.immagine-header {
+    background-image: url("assets/preview.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.sfondo {
+    background-image: linear-gradient(to right, #000d15 0%, #170f04f9 100%);
+}

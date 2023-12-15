@@ -2,8 +2,6 @@ import { Link } from "react-router-dom";
 import CardEvent from "../components/CardEvent";
 import { useAllEvents } from "../hooks/useEvents";
 import useProfile from "../hooks/useProfile";
-import { auth } from "../utils/firebase";
-import { updateEmail } from "firebase/auth";
 
 const ProfilePage = () => {
     const {
@@ -16,7 +14,6 @@ const ProfilePage = () => {
         surnameUser,
         ageUser,
         mailUser,
-        firstMailUser,
         setNameUser,
         setSurnameUser,
         setAgeUser,
@@ -24,21 +21,6 @@ const ProfilePage = () => {
     } = useProfile();
     const { event } = useAllEvents();
 
-    const modifica = async (event: React.MouseEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        console.log(auth);
-        if (auth.currentUser != null && mailUser != null && typeof mailUser !== "number" && mailUser !== firstMailUser) {
-            console.log("Entrato");
-
-            updateEmail(auth.currentUser, firstMailUser)
-                .then(() => {
-                    console.log("ok");
-                })
-                .catch((e) => {
-                    console.log("error" + e);
-                });
-        }
-    };
     if (isLoading) {
         return (
             <>
@@ -51,14 +33,14 @@ const ProfilePage = () => {
                 <div className="flex md:flex-nowrap flex-wrap">
                     <div className="md:w-1/3 ">
                         <div className="md:fixed md:w-1/3 md:pt-6 md:pl-6 p-4">
-                            <div className="">
+                            <div className="w-full flex justify-end md:justify-start">
                                 <Link to="/home">
                                     <button className="bg-white rounded-2xl px-3 py-2 font-bold">HOME</button>
                                 </Link>
                             </div>
                             <div className="py-5">
                                 <div className="flex flex-wrap">
-                                    <form action="" className="flex flex-wrap" onSubmit={modifica}>
+                                    <form action="" className="flex flex-wrap" >
                                         <div className="w-[20%] flex items-center">
                                             <p className="w-full text-white">Name</p>
                                         </div>

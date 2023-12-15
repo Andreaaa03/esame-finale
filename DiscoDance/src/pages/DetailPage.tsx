@@ -4,7 +4,6 @@ import gif from "../assets/Spin-0.gif";
 import { Link } from "react-router-dom";
 import person from "../assets/user.png";
 
-
 const DetailPage = () => {
     const { singleEvent, isLoading } = useDetailEvents();
 
@@ -19,34 +18,54 @@ const DetailPage = () => {
         return (
             <>
                 <div className="w-full min-h-screen md:max-h-screen">
-                    <div className="flex justify-end md:justify-start font-bold p-4">
-                        <button onClick={() => window.history.back()} className="bg-green-500 px-3 py-2 rounded-2xl">
+                    <div className="flex justify-end md:justify-start font-bold p-4 md:pb-0">
+                        <button onClick={() => window.history.back()} className="bg-white px-3 py-2 rounded-2xl">
                             indietro
                         </button>
                     </div>
                     <div className="md:max-h-screen md:flex md:flex-wrap">
-                        <div className="flex flex-wrap justify-center md:w-full">
-                            <p className="m-2 mb-0 font-bold md:text-4xl pb-3 text-2xl">{singleEvent?.name}</p>
+                        <div className="flex flex-wrap justify-center w-full">
+                            <h1 className="m-2 mb-0 text-center font-bold md:text-4xl pb-3 md:pb-0 text-2xl">{singleEvent?.name}</h1>
                         </div>
                         <div className="w-full md:w-1/3 md:p-4">
                             <img src={singleEvent?.coverImage} alt="img" />
                         </div>
                         <div className="md:w-2/3">
-                            <div className="">
-                                <p className="p-4">{singleEvent?.description.long}</p>
-                            </div>
                             <div className="p-4">
-                                <h3 className="font-bold w-full text-center md:text-start">Drink inclusi</h3>
-                                <ul className="list-disc px-6">
-                                    {singleEvent?.includedDrinks.map((drink, i) => (
-                                        <li className="" key={i}>
-                                            {drink}
-                                        </li>
-                                    ))}
-                                </ul>
+                                {singleEvent?.description.long.map((desc, i) => {
+                                    return (
+                                        <div key={i} className="">
+                                            <p className="">{desc}</p>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                            <div className="p-4 flex flex-wrap">
+                                <div className="md:w-1/2 w-full pb-4 md:pb-0">
+                                    <h3 className="font-bold w-full text-center md:text-start">Drink inclusi</h3>
+                                    <ul className="list-disc px-6">
+                                        {singleEvent?.includedDrinks.map((drink, i) => (
+                                            <li className="" key={i}>
+                                                {drink}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                                <div className="md:w-1/2 w-full">
+                                    <h3 className="font-bold w-full text-center md:text-start">Utils</h3>
+                                    <ul className="list-disc px-6">
+                                        <li>{singleEvent?.price}$</li>
+                                        <li>{singleEvent?.dresscode}</li>
+                                        {singleEvent?.tags.map((tag, i) => (
+                                            <li className="" key={i}>
+                                                {tag}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
                             </div>
                             {singleEvent?.isAperitivoIncluded === true && (
-                                <div className="p-4">
+                                <div className="p-4 md:pt-0">
                                     <h3 className="font-bold w-ful text-center md:text-start">Aperetivo incluso con:</h3>
                                     <ul className="list-disc pl-6">
                                         {singleEvent?.isAperitivoIncluded === true &&

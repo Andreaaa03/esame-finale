@@ -21,7 +21,7 @@ export const LoginLogout = () => {
         signInWithEmailAndPassword(auth, mail, password)
             .then(() => {
                 sessionStorage.setItem("userEmail", JSON.stringify(mail));
-                navigate("/");
+                navigate("/home");
             })
             .catch((e) => {
                 console.log("credenziali sbagliate" + e);
@@ -56,8 +56,8 @@ export const LoginLogout = () => {
         <div className="w-full flex flex-wrap justify-center">
             {visible === true && (
                 <div className="w-full flex justify-center mb-2">
-                    <Link to={"/"}>
-                        <button className="text-center py-2 px-3 bg-green-700">Torna indietro</button>
+                    <Link to={"/home"}>
+                        <button className="text-center font-bold py-2 px-3 bg-white rounded-xl">Torna alla Home</button>
                     </Link>
                 </div>
             )}
@@ -126,7 +126,7 @@ export const LoginLogout = () => {
             {visible === true && log === true && (
                 <div className="md:w-3/6 w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
                     <form className="md:space-y-6" onSubmit={logicSignIn}>
-                        <h5 className="text-xl font-medium text-gray-900 dark:text-white">Sign in to our plathtmlForm</h5>
+                        <h5 className="p-2 text-xl font-medium text-gray-900 dark:text-white">Sign in to our plathtmlForm</h5>
                         <div className="flex flex-wrap">
                             <div className="md:w-1/3 w-full p-2">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
