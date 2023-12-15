@@ -3,9 +3,11 @@ import { useDetailEvents } from "../hooks/useDetailEvents";
 import gif from "../assets/Spin-0.gif";
 import { Link } from "react-router-dom";
 import person from "../assets/user.png";
+import { useAllEvents } from "../hooks/useEvents";
 
 const DetailPage = () => {
     const { singleEvent, isLoading } = useDetailEvents();
+    const { datetime } = useAllEvents();
 
     if (isLoading) {
         return (
@@ -25,7 +27,9 @@ const DetailPage = () => {
                     </div>
                     <div className="md:max-h-screen md:flex md:flex-wrap">
                         <div className="flex flex-wrap justify-center w-full">
-                            <h1 className="m-2 mb-0 text-center font-bold md:text-4xl pb-3 md:pb-0 text-2xl">{singleEvent?.name}</h1>
+                            <h1 className="m-2 mb-0 text-center font-bold md:text-4xl pb-3 md:pb-0 text-2xl">
+                                {singleEvent?.name} - {singleEvent?.date_modified}
+                            </h1>
                         </div>
                         <div className="w-full md:w-1/3 md:p-4">
                             <img src={singleEvent?.coverImage} alt="img" />
@@ -54,13 +58,14 @@ const DetailPage = () => {
                                 <div className="md:w-1/2 w-full">
                                     <h3 className="font-bold w-full text-center md:text-start">Utils</h3>
                                     <ul className="list-disc px-6">
-                                        <li>{singleEvent?.price}$</li>
-                                        <li>{singleEvent?.dresscode}</li>
-                                        {singleEvent?.tags.map((tag, i) => (
-                                            <li className="" key={i}>
-                                                {tag}
-                                            </li>
-                                        ))}
+                                        <li>Prezzo: {singleEvent?.price}$</li>
+                                        <li>Drescode: {singleEvent?.dresscode}</li>
+                                        <li className="">
+                                            Genere Musicale:
+                                            {singleEvent?.tags.map((tag, i) => (i === 0 && <span key={i}> {tag}</span> || 
+                                            i > 0 && <span key={i}> - {tag}</span>)
+                                            )}
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -82,16 +87,30 @@ const DetailPage = () => {
                         </div>
                         <div className="p-4 mb-10 pb-10 flex flex-wrap justify-center w-full md:pb-0 md:mb-0">
                             <h2 className="font-bold w-full text-center pb-2 md:text-2xl">Scegli un orario per prenotare:</h2>
-                            {!JSON.parse(sessionStorage.getItem("userEmail") as string) && (
-                                <div className="flex flex-wrap h-full items-center">
-                                    <p className="">Per PRENOTARE devi REGISTRARTI</p>
-                                    <Link to={"/AccediRegistrati"}>
-                                        <button className="mx-2 underline font-bold px-3 py-2 rounded-xl bg-white ">Accedi</button>
-                                    </Link>
-                                </div>
-                            )}
+                            {!JSON.parse(sessionStorage.getItem("userEmail") as string) &&
+                                singleEvent?.date &&
+                                datetime <= singleEvent?.date && (
+                                    <div className="flex flex-wrap h-full items-center">
+                                        <p className="">Per PRENOTARE devi REGISTRARTI</p>
+                                        <Link to={"/AccediRegistrati"}>
+                                            <button className="mx-2 underline font-bold px-3 py-2 rounded-xl bg-white ">Accedi</button>
+                                        </Link>
+                                    </div>
+                                )}
                             {JSON.parse(sessionStorage.getItem("userEmail") as string) &&
+                                singleEvent?.date &&
+                                datetime <= singleEvent?.date &&
                                 singleEvent?.time.map((t, i) => <ModalBooking time={t} key={i} event={singleEvent.id} />)}
+                            {JSON.parse(sessionStorage.getItem("userEmail") as string) &&
+                                singleEvent?.date &&
+                                datetime >= singleEvent?.date && (
+                                    <div className="flex flex-wrap h-full items-center">
+                                        <p className="">Prenotazione non disponibile</p>
+                                        <Link to={"/home"}>
+                                            <button className="mx-2 underline font-bold px-3 py-2 rounded-xl bg-white ">HOME</button>
+                                        </Link>
+                                    </div>
+                                )}
                         </div>
                     </div>
                     <div className="bg-white rounded-full h-14 w-14 fixed md:bottom-7 md:left-7 bottom-3 left-3 z-50">

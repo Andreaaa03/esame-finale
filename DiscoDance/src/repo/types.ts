@@ -18,6 +18,7 @@ export type SingleEvent = {
     name: string;
     coverImage: string;
     date: string;
+    date_modified: string;
     description: {
         long: string[];
         short: string;

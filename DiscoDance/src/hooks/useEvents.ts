@@ -44,5 +44,5 @@ export const useAllEvents = () => {
             });
     }, [isLoading]);
 
-    return { event, pastEvents, nextEvents, futureEvents, isLoading };
+    return { event, pastEvents, nextEvents, futureEvents, isLoading, datetime };
 };

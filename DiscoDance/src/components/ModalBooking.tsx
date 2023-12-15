@@ -24,7 +24,8 @@ const ModalBooking = (typeInfo: info) => {
                             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full  outline-none focus:outline-none">
                                 <div className="w-full p-4  border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
                                     <div className="flex flex-nowrap justify-between p-2 pb-6 border-b-2">
-                                        <h5 className="text-xl font-medium text-gray-900 dark:text-white pl-4">General Info</h5>
+                                        <h5 className="text-xl font-medium  dark:text-white pl-4">General Info</h5>
+                                        <p className="text-xl font-medium  dark:text-white pl-4">Orario scelto: {time}</p>
                                         <span onClick={() => setShowModal(false)} className="text-white hover:cursor-pointer pr-4 w-10 text-center">
                                             X
                                         </span>
