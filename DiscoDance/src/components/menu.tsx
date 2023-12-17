@@ -7,6 +7,7 @@ const Menu = () => {
     const { pastEvents, nextEvents, futureEvents, isLoading } = useAllEvents();
     const [showEvents, setShowEvents] = useState("");
     useEffect(() => {
+        //lo imposto cosi nella home esce subito l'evento corrente
         setShowEvents("CURRENT");
     }, []);
     if (isLoading) {

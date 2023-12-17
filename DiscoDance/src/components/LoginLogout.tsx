@@ -41,8 +41,10 @@ export const LoginLogout = () => {
 
     const lostPassword = (event: React.MouseEvent<HTMLFormElement>) => {
         event.preventDefault();
+        //cambio la schermata 
         setVisible(true);
         setLogLostPassword(false);
+        
         sendPasswordResetEmail(auth, mail)
             .then(() => {
                 console.log("email inviata");

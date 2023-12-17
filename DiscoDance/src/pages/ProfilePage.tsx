@@ -2,11 +2,13 @@ import { Link } from "react-router-dom";
 import CardEvent from "../components/CardEvent";
 import { useAllEvents } from "../hooks/useEvents";
 import useProfile from "../hooks/useProfile";
+import gif from "../assets/Spin-0.gif";
 
 const ProfilePage = () => {
     const {
         isLoading,
         booking,
+        carimentoInCorso,
         esci,
         eliminaProfilo,
         eliminaPrenotazione,
@@ -24,7 +26,10 @@ const ProfilePage = () => {
     if (isLoading) {
         return (
             <>
-                <p>loading...</p>
+                <div className="h-1/4 w-1/4">
+                    <p>Loading data...</p>
+                    <img className="h-1/4 w-1/4" src={gif} alt="gif" />
+                </div>
             </>
         );
     } else {
@@ -104,10 +109,15 @@ const ProfilePage = () => {
                                     </div>
                                 </form>
                             </div>
+                            {carimentoInCorso === true && (
+                                <div className="w-full flex justify-center">
+                                    <img className="h-1/4 w-1/4" src={gif} alt="gif" />
+                                </div>
+                            )}
                         </div>
                     </div>
                     <div className="md:w-2/3 pt-2">
-                        <h2 className="w-full text-center text-2xl font-bold">Le tue prenotazioni</h2>
+                        <h2 className="w-full text-center text-2xl font-bold text-white">Le tue prenotazioni</h2>
                         {event?.map((singleEvent, j) => {
                             return booking?.map((singleBooking, i) => {
                                 if (singleBooking.event === singleEvent.id) {

@@ -19,6 +19,9 @@ const useProfile = () => {
 
     //per aggiornare la pagina quando elimini una prenotazione interagendo con lo useEffect, non con il reload effettivo della pagina
     const [ricarico, setRicarico] = useState<string>("");
+
+    //per far capire all'utente che si sta caricando qualcosa
+    const [carimentoInCorso, setCarimentoInCorso] = useState(false);
     const emailSessione = JSON.parse(sessionStorage.getItem("userEmail") as string);
 
     useEffect(() => {
@@ -59,10 +62,12 @@ const useProfile = () => {
     //al click faccio impedire il carimento della pagina, Form = Submit
     const esci = (event: React.MouseEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setCarimentoInCorso(true);
         signOut(auth)
             .then(() => {
                 resetSession();
                 navigate("/");
+                setCarimentoInCorso(false);
             })
             .catch((error) => {
                 console.log("error: " + error);
@@ -72,6 +77,7 @@ const useProfile = () => {
     //al click faccio impedire il carimento della pagina, Form = Submit
     const eliminaProfilo = (event: React.MouseEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setCarimentoInCorso(true);
         //mi ciclo tutti gli utenti e controllo quale utente ha la mail uguale a quella salvata in sessione
         users?.forEach(u => {
             if (u.mail === emailSessione) {
@@ -100,6 +106,7 @@ const useProfile = () => {
                                     //pulisco la sessione
                                     resetSession();
                                     navigate("/");
+                                    setCarimentoInCorso(false);
                                 });
                             //eleimino l'utente da Firebase Auth
                         } else
@@ -113,16 +120,20 @@ const useProfile = () => {
     }
 
     const eliminaPrenotazione = (evento: string | number, idBooking: string | number) => {
+        setCarimentoInCorso(true);
         users?.forEach((u) => {
             if (u.mail === emailSessione) {
                 booking?.forEach(b => {
+                    //controllo che la mail sia uguale alla essione, l'evento sia uguale e che l'id sia lo stesso
                     if (b.mail === emailSessione && b.event === evento && b.id === idBooking) {
                         remove(
                             ref(db, 'booking/' + b.id)
                         ).then(() => {
-                            // window.location.reload();
                             setRicarico(".");
-                        }).catch((e) => { console.log("error: " + e) });
+                        }).catch((e) => { console.log("error: " + e) })
+                        .finally(()=>{
+                            setCarimentoInCorso(false);
+                        });
                     }
                 });
             }
@@ -130,7 +141,7 @@ const useProfile = () => {
     }
 
     return {
-        isLoading, booking, users, esci, eliminaProfilo, eliminaPrenotazione, nameUser, surnameUser, ageUser, mailUser, setNameUser, setSurnameUser, setAgeUser, setMailUser
+        isLoading, booking, users, carimentoInCorso, esci, eliminaProfilo, eliminaPrenotazione, nameUser, surnameUser, ageUser, mailUser, setNameUser, setSurnameUser, setAgeUser, setMailUser
     }
 }
 export default useProfile;
