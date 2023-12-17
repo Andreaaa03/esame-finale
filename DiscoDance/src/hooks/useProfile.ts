@@ -4,19 +4,26 @@ import { auth, db, readOnDBBooking, readOnDBUsers, resetSession } from "../utils
 import { deleteUser, signOut } from "firebase/auth";
 import { ref, remove } from "firebase/database";
 
+//logica del profilo utente
 const useProfile = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
+    //info dal db
     const [booking, setBooking] = useState<Record<string, string | number>[] | null>(null);
     const [users, setUsers] = useState<Record<string, string | number>[] | null>(null);
+    //info utente
     const [nameUser, setNameUser] = useState<string>("");
     const [surnameUser, setSurnameUser] = useState<string>("");
     const [ageUser, setAgeUser] = useState<number>(0);
     const [mailUser, setMailUser] = useState<string>("");
     const [firstMailUser, setFirstMailUser] = useState<string>("");
-    const [ricarico, setRicarico] = useState<string>("");
+
+    //per aggiornare la pagina quando elimini una prenotazione interagendo con lo useEffect, non con il reload effettivo della pagina
+    const [ricarico, setRicarico] = useState<string>(""); 
     const emailSessione = JSON.parse(sessionStorage.getItem("userEmail") as string);
+
     useEffect(() => {
+        //faccio la chiamata async perchè devo aspettare la risposta dal db
         const fetchData = async () => {
             setRicarico("");
             setIsLoading(true);
@@ -27,6 +34,7 @@ const useProfile = () => {
                 setBooking(bookingsData);
                 setUsers(usersData);
 
+                //mi salvo le info utente dal db
                 if (usersData != null) {
                     setNameUser(String(usersData[0].name));
                     setSurnameUser(String(usersData[0].surname));
