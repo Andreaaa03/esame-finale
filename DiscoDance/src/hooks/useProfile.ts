@@ -74,18 +74,6 @@ const useProfile = () => {
         event.preventDefault();
         //mi ciclo tutti gli utenti e controllo quale utente ha la mail uguale a quella salvata in sessione
         users?.forEach(u => {
-            if (auth.currentUser) {
-                console.log(auth.currentUser)
-                deleteUser(auth.currentUser)
-                    .then(() => {
-                        // navigate("/");
-                        console.log("eliminato");
-                    }).catch((e) => { console.log("error: " + e) })
-                    .finally(() => {
-                        //pulisco la sessione
-                        // resetSession();
-                    });
-                }
             if (u.mail === emailSessione) {
                 console.log("email: " + u.mail + " " + emailSessione);
                 // lo rimuovo dal db Users
@@ -94,20 +82,28 @@ const useProfile = () => {
                 )
                     .then(() => {
                         //vado a eliminare tutte le sue prenotazioni effettuate
-                        console.log(auth.currentUser)
-                        
-                            booking?.forEach(b => {
-                                if (b.mail === emailSessione) {
-                                    remove(
-                                        ref(db, 'booking/' + b.id)
-                                    ).then(() => {
-                                        window.location.reload();
-                                    }).catch((e) => { console.log("error: " + e) });
-                                }
-                            });
-                        //     //eleimino l'utente da Firebase Auth
-                        // } else
-                        //     console.log("eliminazione utente NON effettuata!!!");
+                        booking?.forEach(b => {
+                            if (b.mail === emailSessione) {
+                                remove(
+                                    ref(db, 'booking/' + b.id)
+                                ).then(() => {
+                                    console.log("prenotazioni eliminate")
+                                }).catch((e) => { console.log("error: " + e) });
+                            }
+                        });
+                        if (auth.currentUser) {
+                            deleteUser(auth.currentUser)
+                                .then(() => {
+                                    console.log("eliminato");
+                                }).catch((e) => { console.log("error: " + e) })
+                                .finally(() => {
+                                    //pulisco la sessione
+                                    resetSession();
+                                    navigate("/");
+                                });
+                            //eleimino l'utente da Firebase Auth
+                        } else
+                            console.log("eliminazione utente NON effettuata!!!");
                     })
                     .catch((error) => {
                         console.log("error: " + error);
