@@ -16,10 +16,9 @@ const useProfile = () => {
     const [surnameUser, setSurnameUser] = useState<string>("");
     const [ageUser, setAgeUser] = useState<number>(0);
     const [mailUser, setMailUser] = useState<string>("");
-    const [firstMailUser, setFirstMailUser] = useState<string>("");
 
     //per aggiornare la pagina quando elimini una prenotazione interagendo con lo useEffect, non con il reload effettivo della pagina
-    const [ricarico, setRicarico] = useState<string>(""); 
+    const [ricarico, setRicarico] = useState<string>("");
     const emailSessione = JSON.parse(sessionStorage.getItem("userEmail") as string);
 
     useEffect(() => {
@@ -39,7 +38,6 @@ const useProfile = () => {
                     setNameUser(String(usersData[0].name));
                     setSurnameUser(String(usersData[0].surname));
                     setAgeUser(Number(usersData[0].age));
-                    setFirstMailUser(String(usersData[0].mail));
                     setMailUser(String(usersData[0].mail));
                 }
 
@@ -56,8 +54,9 @@ const useProfile = () => {
         } else {
             fetchData();
         }
-    }, [emailSessione, navigate, ricarico]);  // Aggiunto emailSessione come dipendenza
+    }, [emailSessione, navigate, ricarico]);
 
+    //al click faccio impedire il carimento della pagina, Form = Submit
     const esci = (event: React.MouseEvent<HTMLFormElement>) => {
         event.preventDefault();
         signOut(auth)
@@ -70,35 +69,45 @@ const useProfile = () => {
             });
     };
 
-
+    //al click faccio impedire il carimento della pagina, Form = Submit
     const eliminaProfilo = (event: React.MouseEvent<HTMLFormElement>) => {
         event.preventDefault();
+        //mi ciclo tutti gli utenti e controllo quale utente ha la mail uguale a quella salvata in sessione
         users?.forEach(u => {
+            if (auth.currentUser) {
+                console.log(auth.currentUser)
+                deleteUser(auth.currentUser)
+                    .then(() => {
+                        // navigate("/");
+                        console.log("eliminato");
+                    }).catch((e) => { console.log("error: " + e) })
+                    .finally(() => {
+                        //pulisco la sessione
+                        // resetSession();
+                    });
+                }
             if (u.mail === emailSessione) {
                 console.log("email: " + u.mail + " " + emailSessione);
+                // lo rimuovo dal db Users
                 remove(
                     ref(db, 'users/' + u.id)
                 )
                     .then(() => {
-                        if (auth.currentUser) {
-                            users?.forEach((u) => {
-                                if (u.mail === emailSessione) {
-                                    booking?.forEach(b => {
-                                        if (b.mail === emailSessione) {
-                                            remove(
-                                                ref(db, 'booking/' + b.id)
-                                            ).then(() => {
-                                                window.location.reload();
-                                            }).catch((e) => { console.log("error: " + e) });
-                                        }
-                                    });
+                        //vado a eliminare tutte le sue prenotazioni effettuate
+                        console.log(auth.currentUser)
+                        
+                            booking?.forEach(b => {
+                                if (b.mail === emailSessione) {
+                                    remove(
+                                        ref(db, 'booking/' + b.id)
+                                    ).then(() => {
+                                        window.location.reload();
+                                    }).catch((e) => { console.log("error: " + e) });
                                 }
-                            })
-                            deleteUser(auth.currentUser);
-                            navigate("/");
-                            resetSession();
-                        } else
-                            console.log("eliminazione utente NON effettuata!!!");
+                            });
+                        //     //eleimino l'utente da Firebase Auth
+                        // } else
+                        //     console.log("eliminazione utente NON effettuata!!!");
                     })
                     .catch((error) => {
                         console.log("error: " + error);
@@ -125,7 +134,7 @@ const useProfile = () => {
     }
 
     return {
-        isLoading, booking, users, esci, eliminaProfilo, eliminaPrenotazione, nameUser, surnameUser, ageUser, mailUser, firstMailUser, setNameUser, setSurnameUser, setAgeUser, setMailUser, setFirstMailUser
+        isLoading, booking, users, esci, eliminaProfilo, eliminaPrenotazione, nameUser, surnameUser, ageUser, mailUser, setNameUser, setSurnameUser, setAgeUser, setMailUser
     }
 }
 export default useProfile;
