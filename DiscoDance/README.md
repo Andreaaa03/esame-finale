@@ -1,5 +1,8 @@
 # DiscoDance
 
+## Netifly
+- https://discodance.netlify.app/
+
 ## Introduzione
 Questo progetto si basa sulla creazione di un sito per una discoteca dove puoi vedere gli eventi in programma, oltre a quelli passati. Per fare ciò è stata impostata una data che permette un interfaccia utente più immersiva. Ogni evento ha una pagina a se dedicata con le rispettive informazioni e si può effettuare una prenotazione con una scelta di ingresso tra 6 orari proposti, eccetto gli eventi scaduti dove non è possibile prenotare.
 Per effettuare la prenotazione bisogna autenticarsi e perciò è stato oportuno creare una pagina dedicata al LogIn e SignIn. 
