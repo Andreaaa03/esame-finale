@@ -13,7 +13,6 @@ export const ModalsBooking = (time: string, event: number) => {
             try {
                 setUsers(await readOnDBUsers(db)); //setta a user il db Users
             } catch (error) {
-                // Handle error if needed
                 console.error('Error fetching data:', error);
             }
         };

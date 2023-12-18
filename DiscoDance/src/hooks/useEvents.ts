@@ -11,6 +11,7 @@ export const useAllEvents = () => {
     const [futureEvents, setFutureEvents] = useState<AllEvents[]>([]);
     const datetime: string = "2023-07-21";  //data impostata manualmente 
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [errorCatchAllEvents, setErrorCatchAllEvents] = useState<boolean>(false);
 
     useEffect(() => {
         getAllEvents()
@@ -42,9 +43,11 @@ export const useAllEvents = () => {
                 setIsLoading(false);
             })
             .catch((error) => {
+                setIsLoading(false);
                 console.error(error);
+                setErrorCatchAllEvents(true);
             });
     }, [isLoading]);
 
-    return { event, pastEvents, nextEvents, futureEvents, isLoading, datetime };
+    return { event, pastEvents, nextEvents, futureEvents, isLoading, datetime, errorCatchAllEvents, setIsLoading };
 };

@@ -24,6 +24,9 @@ const useProfile = () => {
     const [carimentoInCorso, setCarimentoInCorso] = useState(false);
     const emailSessione = JSON.parse(sessionStorage.getItem("userEmail") as string);
 
+    const [errorCatchProfile, setErrorCatchProfile] = useState<boolean>(false);
+
+
     useEffect(() => {
         //faccio la chiamata async perchè devo aspettare la risposta dal db
         const fetchData = async () => {
@@ -43,11 +46,11 @@ const useProfile = () => {
                     setAgeUser(Number(usersData[0].age));
                     setMailUser(String(usersData[0].mail));
                 }
-
-                setIsLoading(false);
             } catch (error) {
                 // Handle error if needed
                 console.error('Error fetching data:', error);
+                setErrorCatchProfile(true);
+            } finally {
                 setIsLoading(false);
             }
         };
@@ -131,9 +134,9 @@ const useProfile = () => {
                         ).then(() => {
                             setRicarico(".");
                         }).catch((e) => { console.log("error: " + e) })
-                        .finally(()=>{
-                            setCarimentoInCorso(false);
-                        });
+                            .finally(() => {
+                                setCarimentoInCorso(false);
+                            });
                     }
                 });
             }
@@ -141,7 +144,7 @@ const useProfile = () => {
     }
 
     return {
-        isLoading, booking, users, carimentoInCorso, esci, eliminaProfilo, eliminaPrenotazione, nameUser, surnameUser, ageUser, mailUser, setNameUser, setSurnameUser, setAgeUser, setMailUser
+        isLoading, errorCatchProfile, booking, users, carimentoInCorso, esci, eliminaProfilo, eliminaPrenotazione, nameUser, surnameUser, ageUser, mailUser, setNameUser, setSurnameUser, setAgeUser, setMailUser
     }
 }
 export default useProfile;

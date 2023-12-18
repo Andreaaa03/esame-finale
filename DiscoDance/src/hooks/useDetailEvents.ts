@@ -7,7 +7,8 @@ export const useDetailEvents = () => {
     const {id}=useParams();
     const [singleEvent, setEvent] = useState<SingleEvent>();   // singolo evento 
     const [isLoading, setIsLoading] = useState<boolean>(true); //inizializzato come boolean true
-    
+    const [errorCatchSingleEvent, setErrorCatchSingleEvent] = useState<boolean>(false);
+
     let idNum:number = -1;
     if(id){
         idNum = parseInt(id);
@@ -28,10 +29,12 @@ export const useDetailEvents = () => {
             setEvent(updateEvent);
             setIsLoading(false);
         }).catch((error) => {
+            setIsLoading(false);
+            setErrorCatchSingleEvent(true);
             console.error(error);
         });
         
     }, [idNum]);
 
-    return { singleEvent, isLoading };
+    return { singleEvent, isLoading, errorCatchSingleEvent };
 };
